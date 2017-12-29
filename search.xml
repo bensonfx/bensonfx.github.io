@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[Golang代码技巧]]></title>
+    <url>%2F2017%2F12%2F29%2FGolang%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7%2F</url>
+    <content type="text"><![CDATA[nsq里的select写文件和socketnsq里的select读 在nsq中，需要读取磁盘上或者内存中的消息，一般人都是先判断内存、磁盘中有没有数据，再尝试读取，然而，nsq另辟蹊径使用了select语句，把CSP模式用到了极致123456789select &#123; case msg = &lt;-c.memoryMsgChan: //尝试从内存中读取 case buf = &lt;-c.backend.ReadChan(): //尝试磁盘上读取 msg, err = decodeMessage(buf) if err != nil &#123; c.ctx.nsqd.logf("ERROR: failed to decode message - %s", err) continue &#125;&#125; fasthttp里对header的处理fasthttp对于header的处理fasthttp为什么会比net.http快，其中一个原因就是fasthttp并没有完全地解析所有的http请求header数据。这种做法也称作lazy loading。首先我们从header的struct开始看起吧。123456789101112131415161718type RequestHeader struct &#123; //bla..... contentLength int contentLengthBytes []byte method []byte requestURI []byte host []byte contentType []byte userAgent []byte h []argsKV bufKV argsKV cookies []argsKV rawHeaders []byte&#125; 可能大家都很奇怪，Request里没有string，明明method、host都可以用string啊，这是由于string是不可变类型，而从Reader中读出的[]byte是可变类型，因此，从[]byte转化为string时是有copy和alloc行为的。虽然数据量小时，没有什么影响，但是构建高并发系统时，这些小的数据就会变大变多，让gc不堪重负。request中还有一个特殊的1234argsKVtype argsKV struct &#123; key []byte value []byte&#125; 其实和上面的理由是一样的，net.http中使用了map[string]string来存储各种其他参数，这就需要alloc，为了达成zero alloc，fasthttp采用了遍历所有header参数来返回，其实也有一定的考虑，那就是大部分的header数量其实都不多，而每次对于短key对比只需要若干个CPU周期，因此算是合理的tradeoff（详见bytes.Equal汇编实现 )]]></content>
+      <tags>
+        <tag>golang</tag>
+      </tags>
+  </entry>
+</search>
