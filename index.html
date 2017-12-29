@@ -276,7 +276,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.bensonfx.cc/2017/12/26/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://blog.bensonfx.cc/2017/12/29/Golang代码技巧/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Benson Yan">
@@ -295,7 +295,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/26/hello-world/" itemprop="url">Hello World</a></h1>
+                <a class="post-title-link" href="/2017/12/29/Golang代码技巧/" itemprop="url">Golang代码技巧</a></h1>
         
 
         <div class="post-meta">
@@ -307,8 +307,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T13:36:04+08:00">
-                2017-12-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-29T22:17:11+08:00">
+                2017-12-29
               </time>
             
 
@@ -347,15 +347,11 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+            <h2 id="nsq里的select写文件和socket"><a href="#nsq里的select写文件和socket" class="headerlink" title="nsq里的select写文件和socket"></a>nsq里的select写文件和socket</h2><p>nsq里的select读</p>
+<p>在nsq中，需要读取磁盘上或者内存中的消息，一般人都是先判断内存、磁盘中有没有数据，再尝试读取，然而，nsq另辟蹊径使用了select语句，把CSP模式用到了极致<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> msg = &lt;-c.memoryMsgChan:      <span class="comment">//尝试从内存中读取</span></span><br><span class="line">    <span class="keyword">case</span> buf = &lt;-c.backend.ReadChan(): <span class="comment">//尝试磁盘上读取</span></span><br><span class="line">        msg, err = decodeMessage(buf)</span><br><span class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">            c.ctx.nsqd.logf(<span class="string">"ERROR: failed to decode message - %s"</span>, err)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="fasthttp里对header的处理"><a href="#fasthttp里对header的处理" class="headerlink" title="fasthttp里对header的处理"></a>fasthttp里对header的处理</h2><p>fasthttp对于header的处理fasthttp为什么会比net.http快，其中一个原因就是fasthttp并没有完全地解析所有的http请求header数据。这种做法也称作lazy loading。首先我们从header的struct开始看起吧。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> RequestHeader <span class="keyword">struct</span> &#123;</span><br><span class="line">        <span class="comment">//bla.....</span></span><br><span class="line">    contentLength      <span class="keyword">int</span></span><br><span class="line">    contentLengthBytes []<span class="keyword">byte</span></span><br><span class="line"></span><br><span class="line">    method      []<span class="keyword">byte</span></span><br><span class="line">    requestURI  []<span class="keyword">byte</span></span><br><span class="line">    host        []<span class="keyword">byte</span></span><br><span class="line">    contentType []<span class="keyword">byte</span></span><br><span class="line">    userAgent   []<span class="keyword">byte</span></span><br><span class="line"></span><br><span class="line">    h     []argsKV</span><br><span class="line">    bufKV argsKV</span><br><span class="line"></span><br><span class="line">    cookies []argsKV</span><br><span class="line"></span><br><span class="line">    rawHeaders []<span class="keyword">byte</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可能大家都很奇怪，Request里没有string，明明method、host都可以用string啊，这是由于string是不可变类型，而从Reader中读出的[]byte是可变类型，因此，从[]byte转化为string时是有copy和alloc行为的。虽然数据量小时，没有什么影响，但是构建高并发系统时，这些小的数据就会变大变多，让gc不堪重负。request中还有一个特殊的<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">argsKVtype argsKV <span class="keyword">struct</span> &#123;</span><br><span class="line">    key   []<span class="keyword">byte</span></span><br><span class="line">    value []<span class="keyword">byte</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实和上面的理由是一样的，net.http中使用了map[string]string来存储各种其他参数，这就需要alloc，为了达成zero alloc，fasthttp采用了遍历所有header参数来返回，其实也有一定的考虑，那就是大部分的header数量其实都不多，而每次对于短key对比只需要若干个CPU周期，因此算是合理的tradeoff（详见bytes.Equal汇编实现 )</p>
 
           
         
@@ -445,6 +441,15 @@
 
             
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
             
 
           </nav>
