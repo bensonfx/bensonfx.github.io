@@ -276,6 +276,189 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.bensonfx.cc/2018/01/05/基于高性能-Pac-实现智能代理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Benson Yan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Benson的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/05/基于高性能-Pac-实现智能代理/" itemprop="url">基于高性能 Pac 实现智能代理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-05T23:07:23+08:00">
+                2018-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/network/" itemprop="url" rel="index">
+                    <span itemprop="name">network</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>转载自:<a href="https://darknode.in/network/write-efficient-pac/index.html" target="_blank" rel="noopener">link</a></p>
+<h1 id="基于高性能-Pac-实现智能代理"><a href="#基于高性能-Pac-实现智能代理" class="headerlink" title="基于高性能 Pac 实现智能代理"></a>基于高性能 Pac 实现智能代理</h1><h2 id="相关说明"><a href="#相关说明" class="headerlink" title="相关说明"></a>相关说明</h2><p>Pac 文件即 Proxy auto​-​con­fig file，实质上是一个 javascript 脚本。浏览器在连接互联网时会调用其中的 Find­Proxy­For­URL(url, host)函数，并根据其返回值决定访问特定 url 时的代理设置。</p>
+<p>由于 Pac 文件实质上是一个 javascript 脚本，如果我们把它放在某个 web 服务器上，浏览器下载 Pac 文件时，服务器可以使用 gzip 压缩等方式减少传输的流量，对 Pac 文件本身的压缩就没有必要了。然而，如果 Pac 文件是储存在一个 Open­Wrt 路由器上，储存空间寸土寸金，我们就有必要提前对 Pac 文件进行压缩了。</p>
+<p>在 Open­Wrt 路由器上使用一个 Pac 文件代替 ipt­a­bles 与 dns­masq 有几个优势：</p>
+<ol>
+<li>性能更好：</li>
+</ol>
+<ul>
+<li>Pac 文件运行在手机、平板电脑、电脑等设备上，ipt­a­bles 与 dns­masq 运行在路由器上，前者的 CPU、内存均远远好于后者</li>
+<li>得益于 V8 引擎，手机、平板电脑、电脑处理 javascript 脚本的效率非常高</li>
+<li>ipt­a­bles 处理 ip 段匹配时使用的是遍历链表的方式，时间复杂度是 O(n)级别，javascript 脚本可以使用二分搜索等方式降低时间复杂度到 O(logn)</li>
+<li>dns­masq 处理域名时使用的也是遍历链表的方式，javascript 可以使用 has­Own­Property 的方式将时间复杂度降低到 O(1)<br>注：使用 ipset 进行 ip 段匹配可以获得更高的匹配效率，有人为 dns­masq 提供了一个 patch，用哈希表处理域名匹配以获得更高的匹配效率，这两个优化可以显著提升性能。</li>
+</ul>
+<ol>
+<li>配置方便：</li>
+</ol>
+<ul>
+<li>Open­Wrt 路由器大多自带了网页服务器以提供 luci 网页配置界面，将 Pac 文件配置在路由器上只需要将文件放在路由器的 /​www 目录下即可</li>
+<li>ipt­a­bles 或是 dns­masq 的配置需要一定的 linux 基础，需要 ssh 登录到路由器上进行配置<br>扩展性强：</li>
+</ul>
+<p>Pac 文件本质上是一个 javascript 脚本，利用 javascript 可以实现负载均衡、根据本机 ip 地址决定是否进行代理等多种功能<br>独立性好：</p>
+<p>Pac 文件可以部署在本机，方便在多个网络环境下切换<br>不依赖经过特定部署的路由器，在校园网环境下可以更加方便<br>尽管如此，Pac 文件也有一些劣势：</p>
+<p>使用范围受限：</p>
+<p>Pac 只能处理 http 与 https 协议，邮件客户端是无法通过 Pac 文件实现代理访问<br>SPDY 协议对代理与 Pac 的处理存在问题，受此影响，twit­ter、face­book 客户端无法使用 Pac 文件进行处理<br>不能零配置使用：</p>
+<p>尽管 Open­Wrt 可以配置 Pac 自动发现，但 OS X 中仍然需要勾选一个选项才能实现这个功能<br>域名匹配的高效算法<br>进行高效域名匹配的关键在于使用 has­Own­Property 方法，这个方法以 O(1)的时间复杂度进行查找。</p>
+<p>比较好的算法是从完整的域名开始匹配，随后逐级向上查找，即先尝试匹配 “trans­late.google.com”，随后尝试匹配 “google.com”，最后匹配 “com”。</p>
+<p>另外一种思路是从根域开始逐级向下查找，顺序与上面的算法相反。</p>
+<p>虽然后者的性能比前者好（在处理白名单，让 “cn” 域名全部直连时，后者只需查找一次，前者需要循环多次），但是灵活性不如前者（后者无法处理只需要让子域名走代理的情况，北大的网络常常有这种奇异现象，比如 B 站处理登录验证的域名 ac­count.bili­bili.com 需要走代理，但是其他 B 站的域名都不需要走代理，在这种情况下，只能用前者处理）。</p>
+<p>IP 段匹配的高效算法<br>AP­NIC 提供了各国的 IP 地址段信息，这些信息由 IP 地址段起始点和地址段长度组成，比如下面这一条记录：</p>
+<p>apnic|CN|ipv4|101.0.0.0|1024|20110414|allocated<br>CN 代表中国，101.0.0.0 是地址段起始点，1024 是地址段长度。</p>
+<p>最高效的算法是这样的：先用二分查找，找出比目标 IP 小的最大的地址段起始点，再求出目标 IP 与这个起始点的距离，最后比较这个距离与地址段长度即可。</p>
+<p>IP 地址应当被转换为 10 进制保存，另外地址段长度均为 2 的幂次方，所以可以被转换为幂来保存，并且用右移代替简单的比较大小，最终的公式变为：</p>
+<p>if (((目标 IP - 起始 IP) &gt;&gt; 幂次) === 0) {retrun True} else {return False}<br>压缩 Pac 文件<br>不进行压缩的 Pac 体积为 160kb，利用种种黑科技可以将数据最终压缩至 16kb 而只产生 2.8% 的效率损失。</p>
+<p>分别用浏览器测试这两个 Pac：</p>
+<p>var unixtime_ms = new Date().getTime();<br>while(new Date().getTime() &lt; unixtime_ms + 5000) {}<br>function FindProxyForURL(url, host) {return “DIRECT;”;}</p>
+<p>function FindProxyForURL(url, host) {var unixtime_ms = new Date().getTime();<br>while(new Date().getTime() &lt; unixtime_ms + 5000) {}<br>return “DIRECT;”;<br>}<br>浏览一个简单网页，前者会导致浏览器卡顿 5 秒，刷新没有卡顿，访问其他网站也不会，而后者会导致每次刷新都卡顿 5 秒。我们可以得出一个结论：每个 Pac 实例都会被持续使用。这意味着把代码压缩后在 Pac 文件的主函数外解压缩将只有单次性能损失。</p>
+<p>AP­NIC 分配 IP 地址段的最小单位是 256，所有的 IP 起始点都是 xx.xx.xx.0 的形式，这意味着我们可以把所有的 IP 段数据除以 256，这样一来 IP 地址的数值范围就从 0​-​4294967295 降低到了 0​-​16777215，Pac 文件的体积可以缩小到 128kb。</p>
+<p>接下来，将 IP 起始点的第一组数字作为分组的依据，xx.yy.yy.0 只需要保存为 yy.yy 的十进制形式，数据的范围也就从 0​-​16777215 降低到了 0​-​65535，Pac 文件的体积可以缩小到 64kb。</p>
+<p>在上面提到的 IP 段匹配算法中，子网掩码是以幂值来保存的，这样长度达 10 位数的十进制子网掩码数据只需用 2 位数的幂值来保存，Pac 文件的体积可以缩小到 40kb。</p>
+<p>由于 IP 地址数据范围在 0​-​65535，可以将其转化为 Uni­code 编码保存。原先用逗号分割的数值可以被保存为字符串保存，用 charCodeAt 读取，大约 5000 个逗号可以被省略，Pac 文件的体积可以缩小到 20kb。</p>
+<p>在上述情况下幂值的可能范围是 0​-​16，当幂值为 16 时，意味着其掩码为 /8，无需计算即可得知该 IP 一定是国内 IP，于是我们可以将幂值转换为十六进制数并保存为字符串。如果整个字符串是”10” 则意味着其掩码为 /8，可以直接判断为国内 IP，其他情况下每个幂值都一定是 1 位数，用parseInt 读取字符串指定位即可。这一步可以将 Pac 文件的体积缩小到 18kb。</p>
+<p>最后，域名匹配使用的对象也可以由字符串动态生成，正如之前所说，在主函数外动态生成这个对象并不会产生巨大的性能损失，这样可以进一步将 Pac 文件的体积缩小到 16kb。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://blog.bensonfx.cc/2017/12/29/Golang代码技巧/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -433,12 +616,21 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
             
 
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
             
 
             
@@ -446,7 +638,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -485,7 +677,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
