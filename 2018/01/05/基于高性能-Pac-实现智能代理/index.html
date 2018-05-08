@@ -81,6 +81,11 @@
         <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?MKetZV3cUTfDxvMffaOezg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
 
         
+            
+                <style id="prettify_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_css","/css/prettify.min.css?zp8STOU9v89XWFEnN+6YmQ==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+                <style id="prettify_theme"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_theme","/css/prettify/github-v2.min.css?AfzKxt++K+/lhZBlSjnxwg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+            
+        
 
     
 
@@ -412,6 +417,18 @@
 
     <!-- Qrcode -->
     
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAADhklEQVR42u3aQY4bMQwEQP//08l1gcB2NykZ3qB0WiTjmVH50CbFxx/rx3ogwIEDBw4cOHDgwIHjizke8Xpz0x/XPEbr2WefPSv5bLIXHDhw4MBxgyPfantNsrHXoMn/bt4TBw4cOHDc43gdYEmY7aM331gb9jhw4MCB43dxJLGaFGmzLeHAgQMHjv+DIy/V9p+NijEcOHDgwPFlHG1p1EZve00C2hZ+OHDgwIHjMxyztt13/v3R+Q4cOHDgwPEPx+xopx1QyK9JCrz9ARUOHDhw4LjHMRtWyAMvR9wPOrTvjwMHDhw4bnAkYZYMIuwLqvbp+WFVXcLhwIEDB44FRxKK7YOTY628kJtduSrhcODAgQPHIY43gTRaCVkbtK/jsx7yw4EDBw4cRznyo6b2ynw8rm0gzkYcnkLjwIEDB44LHEmAJaG7H1+YlW2zwQgcOHDgwHGPY1YU5QGZB2cb1bO3woEDBw4ctznaoG3DMikF88bfDAgHDhw4cHyeIz/saQuw/WhdXkDW5SgOHDhw4LjA0TbdkhhuP9s2CmfvVjcHceDAgQNHyZFsKX9wvuE8jE/RREGLAwcOHDgucLSjDLPi7cZB1Kw1iQMHDhw4znK08bkqlsrB65xv9nMBBw4cOHDc5pihnDp2ysu82aDD0x8HOHDgwIHjKEe7vbx5lyO2B1H76MWBAwcOHPc4cpQ2XFu+WZAnPw5w4MCBA8fnOV4XQvUDyoOidvx6E/M4cODAgeM2R9u8a2Myb+S1YZ+PjL+5BgcOHDhwHOXIH7MZuZ4VhO3YxOx9cODAgQPHDY5TIwjtVvNDozawi1YjDhw4cOA4ypHHYdvC2wdwe//2hwIOHDhw4PgkRzuUUMdbjNUWcnVphwMHDhw4rnG8/nsPd7YIbNuIxUADDhw4cOA4ypHfNKfcNAHzr2T2teHAgQMHjk9y5OVZHtLtGNzm8Cm6Jw4cOHDgOMrRrv1hT/7veZMxj943zUEcOHDgwLHmaMM1KdJmJdmsHbkPeBw4cODAcYOjbQK2Db7HaM0OsfLSDgcOHDhw3OZom4Cz0msWjfsm5rFTOBw4cODAcYEjH1PYtwXPfnk4cODAgeP7OTYb2DxlBooDBw4cOD7JkTfgkpZcchDV3nlzcHXl2AkHDhw4cKwHGmbNuM3hVv7l5Q1KHDhw4MBxj8PCgQMHDhw4cODAgQPHl62/EpqbdK6PkaEAAAAASUVORK5CYII=">
+    
+</ul>
+
+    
 
     <!-- Tags (bookmark) -->
     
@@ -529,6 +546,16 @@
 <p>在上述情况下幂值的可能范围是 0​-​16，当幂值为 16 时，意味着其掩码为 /8，无需计算即可得知该 IP 一定是国内 IP，于是我们可以将幂值转换为十六进制数并保存为字符串。如果整个字符串是”10” 则意味着其掩码为 /8，可以直接判断为国内 IP，其他情况下每个幂值都一定是 1 位数，用parseInt 读取字符串指定位即可。这一步可以将 Pac 文件的体积缩小到 18kb。</p>
 <p>最后，域名匹配使用的对象也可以由字符串动态生成，正如之前所说，在主函数外动态生成这个对象并不会产生巨大的性能损失，这样可以进一步将 Pac 文件的体积缩小到 16kb。</p>
 
+        
+                <blockquote style="margin: 2em 0 0;padding: 0.5em 1em;border-left: 3px solid #F44336;background-color: #F5F5F5;list-style: none;">
+                    <p><strong>
+                         
+                            This blog is under a <a href="/creativecommons.html" target="_blank">CC BY-NC-SA 3.0 Unported License</a>
+                        </strong>
+                        <br>
+                        <strong>本文链接：</strong><a href="https://blog.bensonfx.cc/2018/01/05/基于高性能-Pac-实现智能代理/">https://blog.bensonfx.cc/2018/01/05/基于高性能-Pac-实现智能代理/</a>
+                    </p>
+                </blockquote>
         
     
 
@@ -748,7 +775,7 @@ It will not impact the appearance and can give developers a lot of support :)
 
     <!-- Google + -->
     
-        <a href="https://www.google.com/" target="_blank">
+        <a href="https://plus.google.com/103207536890428099910" target="_blank">
             <button class="mdl-mini-footer--social-btn social-btn footer-sns-gplus">
                 <span class="visuallyhidden">Google Plus</span>
             </button><!--
@@ -756,6 +783,12 @@ It will not impact the appearance and can give developers a lot of support :)
     
 
     <!-- Weibo -->
+    
+        <a href="https://plus.google.com/103207536890428099910" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-weibo">
+                <span class="visuallyhidden">Weibo</span>
+            </button><!--
+     --></a>
     
 
     <!-- Instagram -->
@@ -766,11 +799,23 @@ It will not impact the appearance and can give developers a lot of support :)
 
     <!-- Github -->
     
+        <a href="https://github.com/bensonfx" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
 
     <!-- LinkedIn -->
     
 
     <!-- Zhihu -->
+    
+        <a href="https://www.zhihu.com/people/bensonfx" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-zhihu">
+                <span class="visuallyhidden">Zhihu</span>
+            </button><!--
+     --></a>
     
 
     <!-- Bilibili -->
@@ -786,7 +831,7 @@ It will not impact the appearance and can give developers a lot of support :)
 
         <!--Copyright-->
         <div id="copyright">
-            Copyright&nbsp;©<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>Benson的博客
+            Copyright&nbsp;©&nbsp;2017&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>Benson的博客
             
         </div>
 
@@ -867,6 +912,16 @@ It will not impact the appearance and can give developers a lot of support :)
 
 <!-- Import prettify js  -->
 
+    
+        
+            <script>lsloader.load("prettify_js","/js/prettify.min.js?WN07fivHQSMKWy7BmHBB6w==", true)</script>
+        
+    
+
+
+    
+        <script>lsloader.load("hanabi","/js/hanabi-browser-bundle.js?5+2z7ZZmFuZK5IcimlZbxw==", true)</script>
+    
 
 
 <!-- Window Load -->
@@ -878,6 +933,17 @@ It will not impact the appearance and can give developers a lot of support :)
     });
 
     
+        
+            $(function() {
+                $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+                prettyPrint();
+                })
+        
+    
+    
+        
+        
+        HanabiBrowser.start('pre code',true);
     
 </script>
 

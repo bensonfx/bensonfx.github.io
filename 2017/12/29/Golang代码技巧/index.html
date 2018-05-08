@@ -81,6 +81,11 @@
         <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?MKetZV3cUTfDxvMffaOezg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
 
         
+            
+                <style id="prettify_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_css","/css/prettify.min.css?zp8STOU9v89XWFEnN+6YmQ==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+                <style id="prettify_theme"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_theme","/css/prettify/github-v2.min.css?AfzKxt++K+/lhZBlSjnxwg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+            
+        
 
     
 
@@ -412,6 +417,18 @@
 
     <!-- Qrcode -->
     
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAACyElEQVR42u3aUVLjMBAE0Nz/0uwBAKdb42wZ6fkrBcHS0weqmZ7X15HPCxsbGxsbGxsbG/uR7Ff8XP/VD8t8+23++bcVR3vGxsbG3pr95l9/+Z32mObfT/aMjY2NfQL7t8Xazznmeq38Iozeg42NjY1d8nJqcjSTPWNjY2Nj55fHYpEwvjixsbGxsdcaRvMW//UectLHe2nY2NjYj2fnoelzPv/XfBsbGxv7wez2SUqOtt1/HQPkRc6bnWNjY2Nvyl5r5beXRxv0TlbHxsbGPo2dx7ftX+UHMb8IoxYVNjY29gHsu0ZkEuSE0cYJ2NjY2GeyJ0XCvVfUPJDGxsbG3pvdNoOSZfJIIDn6NkJYzLexsbGxt2bnmPbam5QfbfSLjY2NvTf7rvj2+idtPDCJorGxsbHPYa+17683lBcY9djNUmMLGxsb+wT2vYM1eVu/Pdz8qsPGxsY+jT25kCbHkZQxeURx272NjY2N/afY+Yva+HZtTLNtbCVHiY2Njb03O99uW3i0x5EXSItRMTY2Nvam7LwMaNtPa6Oc8+HLUb6NjY2N/cfZa9FvgmxLmnbUMtoJNjY29tbsvKiYRAjtO/MRn8WZU2xsbOyN2HnBkG80H7XJr6i1oggbGxv7THbesikWjg9rcnCL+TY2Njb2RuykQdOWDW0zqBipvKsUwcbGxt6U3carSVScFxLz6BcbGxv7ZPbawM28VdQ2lZKrFBsbG/sc9idGHteuyTbijd6PjY2NvSm7fVrkfARn7UJ901TCxsbG3oi9Friubf2ukqYdBsXGxsY+gd1eSO2R5cc6b3JhY2Njn8xOtnIX495DTFpd2NjY2Nh5oz8pEuYFTz0khI2NjY19Uxi8xmsDDGxsbOwz2Z8Id6+3lfDyUufN4WJjY2NvzZ40iSaby6lJeFA3lbCxsbG3YJ/zYGNjY2NjY2NjYz/m+Qf47+KVSYRiKQAAAABJRU5ErkJggg==">
+    
+</ul>
+
+    
 
     <!-- Tags (bookmark) -->
     
@@ -490,6 +507,16 @@
 <p>可能大家都很奇怪，Request里没有string，明明method、host都可以用string啊，这是由于string是不可变类型，而从Reader中读出的[]byte是可变类型，因此，从[]byte转化为string时是有copy和alloc行为的。虽然数据量小时，没有什么影响，但是构建高并发系统时，这些小的数据就会变大变多，让gc不堪重负。request中还有一个特殊的<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">argsKVtype argsKV <span class="keyword">struct</span> &#123;</span><br><span class="line">    key   []<span class="keyword">byte</span></span><br><span class="line">    value []<span class="keyword">byte</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>其实和上面的理由是一样的，net.http中使用了map[string]string来存储各种其他参数，这就需要alloc，为了达成zero alloc，fasthttp采用了遍历所有header参数来返回，其实也有一定的考虑，那就是大部分的header数量其实都不多，而每次对于短key对比只需要若干个CPU周期，因此算是合理的tradeoff（详见bytes.Equal汇编实现 )</p>
 
+        
+                <blockquote style="margin: 2em 0 0;padding: 0.5em 1em;border-left: 3px solid #F44336;background-color: #F5F5F5;list-style: none;">
+                    <p><strong>
+                         
+                            This blog is under a <a href="/creativecommons.html" target="_blank">CC BY-NC-SA 3.0 Unported License</a>
+                        </strong>
+                        <br>
+                        <strong>本文链接：</strong><a href="https://blog.bensonfx.cc/2017/12/29/Golang代码技巧/">https://blog.bensonfx.cc/2017/12/29/Golang代码技巧/</a>
+                    </p>
+                </blockquote>
         
     
 
@@ -709,7 +736,7 @@ It will not impact the appearance and can give developers a lot of support :)
 
     <!-- Google + -->
     
-        <a href="https://www.google.com/" target="_blank">
+        <a href="https://plus.google.com/103207536890428099910" target="_blank">
             <button class="mdl-mini-footer--social-btn social-btn footer-sns-gplus">
                 <span class="visuallyhidden">Google Plus</span>
             </button><!--
@@ -717,6 +744,12 @@ It will not impact the appearance and can give developers a lot of support :)
     
 
     <!-- Weibo -->
+    
+        <a href="https://plus.google.com/103207536890428099910" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-weibo">
+                <span class="visuallyhidden">Weibo</span>
+            </button><!--
+     --></a>
     
 
     <!-- Instagram -->
@@ -727,11 +760,23 @@ It will not impact the appearance and can give developers a lot of support :)
 
     <!-- Github -->
     
+        <a href="https://github.com/bensonfx" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
 
     <!-- LinkedIn -->
     
 
     <!-- Zhihu -->
+    
+        <a href="https://www.zhihu.com/people/bensonfx" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-zhihu">
+                <span class="visuallyhidden">Zhihu</span>
+            </button><!--
+     --></a>
     
 
     <!-- Bilibili -->
@@ -747,7 +792,7 @@ It will not impact the appearance and can give developers a lot of support :)
 
         <!--Copyright-->
         <div id="copyright">
-            Copyright&nbsp;©<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>Benson的博客
+            Copyright&nbsp;©&nbsp;2017&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>Benson的博客
             
         </div>
 
@@ -828,6 +873,16 @@ It will not impact the appearance and can give developers a lot of support :)
 
 <!-- Import prettify js  -->
 
+    
+        
+            <script>lsloader.load("prettify_js","/js/prettify.min.js?WN07fivHQSMKWy7BmHBB6w==", true)</script>
+        
+    
+
+
+    
+        <script>lsloader.load("hanabi","/js/hanabi-browser-bundle.js?5+2z7ZZmFuZK5IcimlZbxw==", true)</script>
+    
 
 
 <!-- Window Load -->
@@ -839,6 +894,17 @@ It will not impact the appearance and can give developers a lot of support :)
     });
 
     
+        
+            $(function() {
+                $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+                prettyPrint();
+                })
+        
+    
+    
+        
+        
+        HanabiBrowser.start('pre code',true);
     
 </script>
 
